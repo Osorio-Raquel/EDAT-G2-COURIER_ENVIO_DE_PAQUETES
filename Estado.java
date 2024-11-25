@@ -24,7 +24,6 @@ public class Estado {
     // Método para seleccionar todos los estados de la BD
     public ArrayList<Estado> selectEstados(){
         ArrayList<Estado> estados = new ArrayList<>();
-        Pais p = new Pais();
         ConnectionDB conn = new ConnectionDB();
         Connection con = conn.connect();
         try{
@@ -35,7 +34,7 @@ public class Estado {
                 String nombre_estado = rs.getString("nombre_estado");
                 int id_pais = rs.getInt("pais_id");
 
-                estados.add(new Estado(id_estado, nombre_estado, p.selectPaisById(id_pais)));
+                estados.add(new Estado(id_estado, nombre_estado, this.pais.selectPaisById(id_pais)));
             }
             rs.close();
             stmt.close();
@@ -49,7 +48,6 @@ public class Estado {
     // Método para seleccionar un estado específico de la BD
     public Estado selectEstadoById(int estado_id){
         Estado es = new Estado();
-        Pais p = new Pais();
         ConnectionDB conn = new ConnectionDB();
         Connection con = conn.connect();
         try{
@@ -61,7 +59,7 @@ public class Estado {
                 String nombre_estado = rs.getString("nombre_estado");
                 int id_pais = rs.getInt("pais_id");
 
-                es = new Estado(id_estado, nombre_estado, p.selectPaisById(id_pais));
+                es = new Estado(id_estado, nombre_estado, this.pais.selectPaisById(id_pais));
             }
             rs.close();
             stmt.close();
@@ -91,7 +89,7 @@ public class Estado {
         ConnectionDB conn = new ConnectionDB();
         Connection con = conn.connect();
         try{
-            PreparedStatement stmt = con.prepareStatement("UPDATE estados SET nombre_estado = ? AND SET pais_id = ? WHERE estado_id = ?");
+            PreparedStatement stmt = con.prepareStatement("UPDATE estados SET nombre_estado = ?, pais_id = ? WHERE estado_id = ?");
             stmt.setString(1, this.nombreEstado);
             stmt.setInt(2, this.pais.getPaisId());
             stmt.setInt(3, this.estadoId);
