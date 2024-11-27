@@ -51,8 +51,8 @@ public class ClienteEnvios {
         double distancia = ruta.rutaMasCorta(origen, destino).size() * 100; // Ejemplo de distancia fija por nodo
         double costo = distancia * 0.5 + peso * 2.0; // Ejemplo: 0.5 por km + 2.0 por kg
 
-        // Crear el envío
-        Envio envio = new Envio(envios.size() + 1, origen, destino, paquete, costo, new Date());
+        //TODO: refactoriza esto, ya que se tiene que recibir objetos del tipo Empleado, ruta, estadoEnvio, vehiculo
+        Envio envio = new Envio(envios.size() + 1, cliente, null, null, null, null, new Date(), null, costo, null, null);
 
         // Agregar el envío a la lista del cliente
         envios.add(envio);
@@ -74,7 +74,8 @@ public class ClienteEnvios {
 
         // Agregar todos los envíos a la factura
         for (Envio envio : envios) {
-            DetalleFactura detalle = new DetalleFactura(factura.getFacturaId(), envio, 1);
+            // DetalleFactura detalle = new DetalleFactura(factura.getFacturaId(), envio, 1);
+            DetalleFactura detalle = new DetalleFactura(factura.getFacturaId(), factura, envio.getPaquete(), 1, envio.getCosto());
             factura.agregarDetalle(detalle);
         }
 

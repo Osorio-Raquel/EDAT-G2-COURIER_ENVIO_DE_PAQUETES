@@ -1,10 +1,74 @@
 import java.util.*;
 
 public class Ruta {
+    private int rutaId;
+    private String nombreRuta;
+    private String origen;
+    private String destino;
+    private double distanciaKm;
+    private String tiempoEstimado;
     private Map<String, List<Arista>> adyacencias;
 
     public Ruta() {
         adyacencias = new HashMap<>();
+    }
+
+    public Ruta(int rutaId, String nombreRuta, String origen, String destino, double distanciaKm, String tiempoEstimado) {
+        this.rutaId = rutaId;
+        this.nombreRuta = nombreRuta;
+        this.origen = origen;
+        this.destino = destino;
+        this.distanciaKm = distanciaKm;
+        this.tiempoEstimado = tiempoEstimado;
+        this.adyacencias = new HashMap<>();
+    }
+
+    public int getRutaId() {
+        return rutaId;
+    }
+
+    public void setRutaId(int rutaId) {
+        this.rutaId = rutaId;
+    }
+
+    public String getNombreRuta() {
+        return nombreRuta;
+    }
+
+    public void setNombreRuta(String nombreRuta) {
+        this.nombreRuta = nombreRuta;
+    }
+
+    public String getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(String origen) {
+        this.origen = origen;
+    }
+
+    public String getDestino() {
+        return destino;
+    }
+
+    public void setDestino(String destino) {
+        this.destino = destino;
+    }
+
+    public double getDistanciaKm() {
+        return distanciaKm;
+    }
+
+    public void setDistanciaKm(double distanciaKm) {
+        this.distanciaKm = distanciaKm;
+    }
+
+    public String getTiempoEstimado() {
+        return tiempoEstimado;
+    }
+
+    public void setTiempoEstimado(String tiempoEstimado) {
+        this.tiempoEstimado = tiempoEstimado;
     }
 
     /**

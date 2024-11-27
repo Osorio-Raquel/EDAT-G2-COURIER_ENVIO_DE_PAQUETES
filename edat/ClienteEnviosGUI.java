@@ -102,7 +102,8 @@ public class ClienteEnviosGUI extends JFrame {
     }
     private void simulacion() {
         Paquete paquete = new Paquete(1, "Electrodoméstico", 15.5, "50x40x30 cm", 2000);
-        Envio envio = new Envio(1, "Guadalajara", "Ciudad de México", paquete, 800, new java.util.Date());
+        EstadoEnvio estado = new EstadoEnvio(1, "PENDIENTE");
+        Envio envio = new Envio(1, cliente, null, null, rutas, estado, new Date(), null, 0, paquete, null);
         new SeguimientoEnvioGUI(envio);
     }
 
@@ -187,8 +188,9 @@ public class ClienteEnviosGUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Seleccione un envío válido para cancelar.", "Error", JOptionPane.WARNING_MESSAGE);
             return;
         }
+        EstadoEnvio estado = clienteEnvios.envios.get(index).getEstadoEnvio();
+        estado.setNombreEstado("CANCELADO");
 
-        clienteEnvios.envios.get(index).setEstado("Cancelado");
         JOptionPane.showMessageDialog(this, "Envío cancelado con éxito.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
         actualizarEnvios();
     }

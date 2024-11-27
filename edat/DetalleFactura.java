@@ -1,35 +1,57 @@
+
 public class DetalleFactura {
     private int detalleId;
-    private Envio envio;
+    private Factura factura;
+    private Paquete paquete;
     private int cantidad;
     private double subtotal;
 
-    public DetalleFactura(int detalleId, Envio envio, int cantidad) {
+    public DetalleFactura(int detalleId, Factura factura, Paquete paquete, int cantidad, double subtotal) {
         this.detalleId = detalleId;
-        this.envio = envio;
+        this.factura = factura;
+        this.paquete = paquete;
         this.cantidad = cantidad;
-        this.subtotal = envio.getCosto() * cantidad;
+        this.subtotal = subtotal;
     }
 
     public int getDetalleId() {
         return detalleId;
     }
 
-    public Envio getEnvio() {
-        return envio;
+    public void setDetalleId(int detalleId) {
+        this.detalleId = detalleId;
+    }
+
+    public Factura getFactura() {
+        return factura;
+    }
+
+    public void setFactura(Factura factura) {
+        this.factura = factura;
+    }
+
+    public Paquete getPaquete() {
+        return paquete;
+    }
+
+    public void setPaquete(Paquete paquete) {
+        this.paquete = paquete;
     }
 
     public int getCantidad() {
         return cantidad;
     }
 
+    public void setCantidad(int cantidad) {
+        this.cantidad = cantidad;
+    }
+
     public double getSubtotal() {
         return subtotal;
     }
 
-    @Override
-    public String toString() {
-        return String.format("Detalle ID: %d, Envío: [%s], Cantidad: %d, Subtotal: $%.2f",
-                detalleId, envio.getPaquete().getDescripcion(), cantidad, subtotal);
+    public void setSubtotal(double subtotal) {
+        this.subtotal = subtotal;
     }
+
 }

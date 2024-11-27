@@ -4,6 +4,7 @@ public class Paquete {
     private double pesoKg;
     private String dimensiones;
     private double valorDeclarado;
+    private Cliente cliente;
 
     public Paquete(int paqueteId, String descripcion, double pesoKg, String dimensiones, double valorDeclarado) {
         this.paqueteId = paqueteId;
@@ -31,6 +32,14 @@ public class Paquete {
 
     public double getValorDeclarado() {
         return valorDeclarado;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     @Override

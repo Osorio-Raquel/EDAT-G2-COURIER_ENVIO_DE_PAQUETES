@@ -97,8 +97,9 @@ public class SeguimientoEnvioGUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 if (estadoIndex < estados.length) {
                     // Actualizar el estado del envío
-                    envio.setEstado(estados[estadoIndex]);
-                    alertaLabel.setText("Estado actual: " + envio.getEstado());
+                    // envio.setEstado(estados[estadoIndex]);
+                    envio.getEstadoEnvio().setNombreEstado(estados[estadoIndex]);
+                    alertaLabel.setText("Estado actual: " + envio.getEstadoEnvio().getNombreEstado());
                     alertaLabel.revalidate(); // Forzar actualización
                     alertaLabel.repaint();
 
@@ -160,7 +161,8 @@ public class SeguimientoEnvioGUI extends JFrame {
     public static void main(String[] args) {
         // Ejemplo de uso
         Paquete paquete = new Paquete(1, "Electrodoméstico", 15.5, "50x40x30 cm", 2000);
-        Envio envio = new Envio(1, "Guadalajara", "Ciudad de México", paquete, 800, new java.util.Date());
+        // Envio envio = new Envio(1, "Guadalajara", "Ciudad de México", paquete, 800, new java.util.Date());
+        Envio envio = new Envio(1, null, null, null, null, null, new java.util.Date(), null, 0, paquete, null);
         new SeguimientoEnvioGUI(envio);
     }
 }
