@@ -1,29 +1,15 @@
 package Vista;
 
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import java.awt.Window.Type;
-import java.awt.Color;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import java.awt.Font;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JButton;
-import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import Modelo.ClienteFactura;
-import Modelo.EnviarEmailFactura;
-import Modelo.FacturaEnPDF;
 import Modelo.VentasFactura;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 
 public class Factura extends JFrame {
 
@@ -31,7 +17,6 @@ public class Factura extends JFrame {
     private JPanel contentPane;
     private JTextField nombre;
     private JTextField nitci;
-    private JTextField correo;
     private JTable detalleFactura;
     private int facturaID = 1;
     private ArrayList<String> productos;
@@ -46,7 +31,7 @@ public class Factura extends JFrame {
         contentPane.setBackground(new Color(0, 123, 255));  // Azul claro de fondo
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         setContentPane(contentPane);
-        contentPane.setLayout(null);
+        contentPane.setLayout(new BorderLayout()); // Usamos BorderLayout para organizar la interfaz
         setLocationRelativeTo(null);
 
         // Inicializando los datos predeterminados
@@ -62,10 +47,13 @@ public class Factura extends JFrame {
 
         // Títulos e información de la factura
         JLabel sucursal = new JLabel("Sucursal #1");
-        sucursal.setBounds(10, 10, 150, 30);
         sucursal.setForeground(Color.WHITE);
-        sucursal.setFont(new Font("Arial", Font.BOLD, 16));
-        contentPane.add(sucursal);
+        sucursal.setFont(new Font("Arial", Font.BOLD, 16));  // Fuente Arial, tamaño 16
+        JPanel datosPanel = new JPanel();  // Panel para los datos de la factura
+        datosPanel.setLayout(new BoxLayout(datosPanel, BoxLayout.Y_AXIS));  // Disposición vertical
+        datosPanel.setBackground(new Color(0, 123, 255));
+
+        datosPanel.add(sucursal);
 
         String[] datos = { "Nombre", "Cantidad", "Precio Unitario", "Subtotal" };
 
@@ -83,73 +71,51 @@ public class Factura extends JFrame {
 
         // Se crea la tabla con los productos y cantidades predeterminadas
         detalleFactura = new JTable(tablaFac);
-        detalleFactura.setFont(new Font("Arial", Font.PLAIN, 14));
+        detalleFactura.setFont(new Font("Arial", Font.PLAIN, 14));  // Cambié la fuente de la tabla
         detalleFactura.setForeground(Color.BLACK);
         detalleFactura.setBackground(Color.WHITE);
         detalleFactura.setRowHeight(30);
         detalleFactura.setFocusable(false); // Deshabilitar el enfoque para evitar la edición por teclado
         JScrollPane scrollPane = new JScrollPane(detalleFactura);
-        scrollPane.setBounds(43, 341, 900, 232);
-        contentPane.add(scrollPane);
 
-        // Nuevas etiquetas con colores y tipografía ajustados
-        JLabel avenida = new JLabel("Av. Hernando Siles");
-        avenida.setForeground(Color.WHITE);
-        avenida.setFont(new Font("Arial", Font.PLAIN, 14));
-        avenida.setBounds(10, 45, 220, 30);
-        contentPane.add(avenida);
+        // Panel para la tabla
+        JPanel tablaPanel = new JPanel();
+        tablaPanel.setLayout(new BorderLayout());
+        tablaPanel.setBackground(new Color(0, 123, 255));
+        tablaPanel.add(scrollPane, BorderLayout.CENTER);
 
-        JLabel calle = new JLabel("Calle 3 de Obrajes");
-        calle.setForeground(Color.WHITE);
-        calle.setFont(new Font("Arial", Font.PLAIN, 14));
-        calle.setBounds(10, 70, 220, 30);
-        contentPane.add(calle);
-
-        JLabel telefono = new JLabel("Telefono: 72036743");
-        telefono.setForeground(Color.WHITE);
-        telefono.setFont(new Font("Arial", Font.PLAIN, 14));
-        telefono.setBounds(10, 95, 250, 30);
-        contentPane.add(telefono);
-
-        JLabel ciudad = new JLabel("La Paz - Bolivia");
-        ciudad.setForeground(Color.WHITE);
-        ciudad.setFont(new Font("Arial", Font.PLAIN, 14));
-        ciudad.setBounds(10, 120, 250, 30);
-        contentPane.add(ciudad);
-
-        // Título de la factura
-        JLabel lblFactura = new JLabel("FACTURA");
-        lblFactura.setForeground(Color.WHITE);
-        lblFactura.setFont(new Font("Arial", Font.BOLD, 72));
-        lblFactura.setBounds(280, 80, 500, 120);
-        contentPane.add(lblFactura);
+        // Añadir los paneles al contentPane
+        JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, tablaPanel, datosPanel);
+        splitPane.setDividerLocation(700);  // Dividir la ventana: tabla en la izquierda y datos a la derecha
+        splitPane.setEnabled(false);  // Evitar que el usuario mueva la división
+        contentPane.add(splitPane, BorderLayout.CENTER);
 
         // Logo
         JLabel lblNewLabel = new JLabel("");
         lblNewLabel.setIcon(new ImageIcon("C:\\Documentos\\imag\\logo220x150.png"));
         lblNewLabel.setBounds(750, 10, 220, 150);
-        contentPane.add(lblNewLabel);
+        contentPane.add(lblNewLabel, BorderLayout.NORTH);
 
         // Campos de entrada
+        JPanel fieldsPanel = new JPanel();
+        fieldsPanel.setLayout(new BoxLayout(fieldsPanel, BoxLayout.Y_AXIS)); // Alineación vertical para los campos
+        fieldsPanel.setBackground(new Color(0, 123, 255));
+        
         JLabel lblnitci = new JLabel("NIT/CI:");
         lblnitci.setForeground(Color.WHITE);
         lblnitci.setFont(new Font("Arial", Font.BOLD, 18));
-        lblnitci.setBounds(43, 219, 120, 29);
-        contentPane.add(lblnitci);
+        fieldsPanel.add(lblnitci);
 
         JLabel lblnombre = new JLabel("Nombre/Razon Social:");
         lblnombre.setForeground(Color.WHITE);
         lblnombre.setFont(new Font("Arial", Font.BOLD, 18));
-        lblnombre.setBounds(43, 258, 211, 29);
-        contentPane.add(lblnombre);
+        fieldsPanel.add(lblnombre);
 
         nombre = new JTextField();
         nombre.setForeground(new Color(0, 0, 0));
         nombre.setFont(new Font("Arial", Font.PLAIN, 18));
-        nombre.setBounds(252, 260, 254, 29);
-        contentPane.add(nombre);
+        fieldsPanel.add(nombre);
         nombre.setColumns(10);
-        // Prellenar el campo 'nombre'
         nombre.setText("Juan Pérez");
 
         nitci = new JTextField();
@@ -157,48 +123,34 @@ public class Factura extends JFrame {
         nitci.setFont(new Font("Arial", Font.PLAIN, 18));
         nitci.setBackground(new Color(255, 255, 255));
         nitci.setColumns(10);
-        nitci.setBounds(122, 219, 183, 29);
-        contentPane.add(nitci);
-        // Prellenar el campo 'nitci'
+        fieldsPanel.add(nitci);
         nitci.setText("123456789");
 
-        // Cambiar el método de pago a un diseño más amigable
+        // Método de pago
         String[] metodos = { "Tarjeta", "Efectivo" };
         JComboBox<String> metodoPago = new JComboBox<>(metodos);
         metodoPago.setFont(new Font("Arial", Font.PLAIN, 18));
-        metodoPago.setBackground(new Color(13, 71, 170));
-        metodoPago.setBounds(689, 258, 254, 29);
-        contentPane.add(metodoPago);
+        fieldsPanel.add(metodoPago);
 
-        JLabel lblmetodo = new JLabel("Método de pago:");
-        lblmetodo.setForeground(Color.WHITE);
-        lblmetodo.setFont(new Font("Arial", Font.BOLD, 18));
-        lblmetodo.setBounds(689, 219, 211, 29);
-        contentPane.add(lblmetodo);
-
-        JLabel lblcorreo = new JLabel("Correo Electrónico:");
-        lblcorreo.setForeground(Color.WHITE);
-        lblcorreo.setFont(new Font("Arial", Font.BOLD, 18));
-        lblcorreo.setBounds(43, 299, 211, 29);
-        contentPane.add(lblcorreo);
-        
+        // Botón de facturar
         JButton btnFacturar = new JButton("Facturar");
-        btnFacturar.addActionListener(new ActionListener() {
-        	public void actionPerformed(ActionEvent e) {
-        				FacturaEnPDF facPDF = new FacturaEnPDF ();
-        				EnviarEmailFactura ev = new EnviarEmailFactura();
-        				ev.EnviarCorreo();
-            			Ventas v = new Ventas();
-            			v.setVisible(true);
-            			dispose();
-        	}
-        });
+        btnFacturar.setFont(new Font("Arial", Font.BOLD, 18));
         btnFacturar.setForeground(Color.WHITE);
-        btnFacturar.setFont(new Font("Roboto Medium", Font.BOLD, 25));
-        btnFacturar.setFocusPainted(false);
-        btnFacturar.setBorder(new LineBorder(new Color(7, 54, 127), 2));
-        btnFacturar.setBackground(new Color(21, 101, 192));
-        btnFacturar.setBounds(741, 589, 202, 46);
-        contentPane.add(btnFacturar);
+        btnFacturar.setBackground(new Color(0, 123, 255));
+        btnFacturar.setFocusable(false);
+        btnFacturar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        fieldsPanel.add(Box.createVerticalStrut(20));  // Espacio antes del botón
+        fieldsPanel.add(btnFacturar);
+        
+        btnFacturar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	Ventas ventana1 = new Ventas();
+        		ventana1.setVisible(true);
+        		dispose();
+            }
+        });
+
+        // Agregar el panel de campos al panel de datos
+        datosPanel.add(fieldsPanel);
     }
 }
